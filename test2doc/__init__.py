@@ -8,4 +8,4 @@ pulling python code blocks out of markdown files.
 
 """
 
-from test2doc.base import code_to_src_string
+from test2doc.base import code_to_src_string, code_to_docs

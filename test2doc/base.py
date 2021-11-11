@@ -4,6 +4,12 @@ from i2.tests.wrapper_test import test_mk_ingress_from_name_mapper
 import inspect
 from typing import Iterable, Generator, Union
 import ast
+from ast import parse as ast_parse
+try:
+    # Try ast.parse (3.9+)
+    from ast import unparse as ast_unparse
+except ImportError:
+    from astunparse import unparse as ast_unparse
 
 Blocks = Iterable[str]
 StringGenerator = Generator[str, None, None]
@@ -14,7 +20,7 @@ def ast_block_line_coordinates(src_string: str):
     Walks AST of src_string, yielding (lineno, end_lineno) coordinates of its nodes,
     when a node has
     """
-    for block in ast.walk(ast.parse(src_string)):
+    for block in ast.walk(ast_parse(src_string)):
         if hasattr(block, 'lineno'):
             yield block.lineno, block.end_lineno
 
@@ -98,14 +104,18 @@ Code = Union[Blocks, str, object]
 
 
 def code_to_src_string(code: Code) -> str:
-    if not isinstance(code, Iterable):
-        src_string_lines, _ = inspect.getsourcelines(code)
-        return inspect.cleandoc('\n'.join(src_string_lines[1:]))
+    if not isinstance(code, str):
+        src_string = inspect.getsource(code)
+        tree = ast_parse(src_string)
+        first_line_of_body = tree.body[0].body[0].lineno
+        body_lines, _ = inspect.getsourcelines(code)
+        code = ''.join(body_lines[(first_line_of_body - 1):])
     assert isinstance(code, str)
-    return code
+    return inspect.cleandoc(code)
 
 
 def code_to_docs(code: Code) -> str:
+    """code (multi kinds) -> src_string -> blocks -> docs"""
     # if not isinstance(code, Iterable):
     #     blocks = inspect.getsourcelines(code)[1:]
     # else:
@@ -130,7 +140,7 @@ def is_valid_python_code(src_string: str):
     Valid python is defined as 'ast.parse(src_string)` doesn't raise a ``SyntaxError``'
     """
     try:
-        ast.parse(src_string)
+        ast_parse(src_string)
         return True
     except SyntaxError:
         return False
@@ -156,18 +166,4 @@ def is_valid_blocks_of_src_string(blocks: Blocks, src_string: str):
     return are_all_valid_python_code(blocks) and is_proper_partition(blocks, src_string)
 
 
-# ---------------------------------------------------------------------------------------
-# Tests
-
-
-def test_wrap(func, wrap):
-    from inspect import signature
-
-    # Just wrapping the func gives you a sort of copy of the func.
-    wrapped_func = wrap(func)  # no transformations
-    assert wrapped_func(2, 'co') == 'coco' == func(2, 'co')
-    assert str(signature(wrapped_func)) == "(a, b: str, c='hi')"  # "(a, b: str, c='hi')"
-
-
-src_string = inspect.getsource(test_wrap)
 
