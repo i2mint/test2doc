@@ -1,6 +1,6 @@
 """Base functionality for test2doc"""
 
-from i2.tests.wrapper_test import test_mk_ingress_from_name_mapper
+from i2.tests.test_wrapper import test_mk_ingress_from_name_mapper
 import inspect
 from typing import Iterable, Generator, Union
 import ast
