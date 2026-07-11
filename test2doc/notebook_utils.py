@@ -2,7 +2,8 @@
 
 import json
 from pathlib import Path
-from typing import Union, Callable, List, Tuple
+from typing import Union, List, Tuple
+from collections.abc import Callable
 
 
 def ensure_notebook_dict(notebook):
@@ -10,7 +11,7 @@ def ensure_notebook_dict(notebook):
         nb_path = Path(notebook)
         if not nb_path.exists():
             raise FileNotFoundError(f"Notebook file not found: {notebook}")
-        with open(nb_path, 'r', encoding='utf-8') as f:
+        with open(nb_path, encoding='utf-8') as f:
             nb = json.load(f)
     else:
         nb = notebook
@@ -19,12 +20,12 @@ def ensure_notebook_dict(notebook):
 
 
 def sort_notebook_cells(
-    notebook: Union[str, dict],
+    notebook: str | dict,
     *,
     key: Callable[[dict], float] = lambda x: 0,
     reverse: bool = False,
     cell_egress=lambda x: x,
-) -> List[Tuple[float, int, dict]]:
+) -> list[tuple[float, int, dict]]:
     """
     Sort notebook cells by rank computed by key function (applied to cells)
 

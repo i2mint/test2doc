@@ -5,18 +5,18 @@
 
 import re
 
-assert_re = re.compile('^assert\ ')
+assert_re = re.compile(r'^assert\ ')
 # assertion_re = re.compile('^assert\ |\ ==\ .+$')
 assertion_capture_re = re.compile(
-    '(^>>>\ assert\ )(?P<statement>.+)(\ ==\ )(?P<val>.+$)'
+    r'(^>>>\ assert\ )(?P<statement>.+)(\ ==\ )(?P<val>.+$)'
 )
 assertion_as_doctest_templ = '>>> {statement}\n{val}\n'
-space_re = re.compile('\s')
+space_re = re.compile(r'\s')
 
 
 def remove_assertion(txt):
     lines = txt.split('\n')
-    f = lambda line: re.compile('^assert\ |\ ==\ .+$').sub('', line)
+    f = lambda line: re.compile(r'^assert\ |\ ==\ .+$').sub('', line)
     return '\n'.join(map(f, lines))
 
 

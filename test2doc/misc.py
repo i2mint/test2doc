@@ -1,6 +1,6 @@
 """Miscellaneous functions for test2doc."""
 
-from typing import Callable
+from collections.abc import Callable
 import os
 import json
 from pathlib import Path
@@ -49,7 +49,7 @@ def renamer_function(filepath: Filepath) -> Filepath:
 
 import re
 from collections import Counter
-from typing import Callable
+from collections.abc import Callable
 
 
 def _header_to_anchor_base(header):

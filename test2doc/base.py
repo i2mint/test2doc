@@ -2,7 +2,8 @@
 
 from i2.tests.test_wrapper import test_mk_ingress_from_name_mapper
 import inspect
-from typing import Iterable, Generator, Union
+from typing import Union
+from collections.abc import Iterable, Generator
 import ast
 from ast import parse as ast_parse
 try:
