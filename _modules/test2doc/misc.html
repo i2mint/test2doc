@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>test2doc.misc &mdash; test2doc 0.0.2 documentation</title>
+  <title>test2doc.misc &mdash; test2doc 0.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -14,7 +14,7 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=e3a6060d"></script>
+      <script src="../../_static/documentation_options.js?v=47de8214"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
@@ -121,7 +121,7 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">renamer_function</span><span class="p">(</span><span class="n">filepath</span><span class="p">:</span> <span class="n">Filepath</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Filepath</span><span class="p">:</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">load_json</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
-    <span class="n">title</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span>
     <span class="c1"># separate folder and filename</span>
     <span class="n">folder</span><span class="p">,</span> <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="c1"># separate filename and extension</span>
@@ -141,7 +141,7 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">hashlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">md5</span>
 
     <span class="c1"># Normalize the header to generate a consistent anchor</span>
-    <span class="n">normalized</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\s+&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
     <span class="c1"># Hash the normalized header for a short and unique anchor</span>
     <span class="k">return</span> <span class="n">md5</span><span class="p">(</span><span class="n">normalized</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">8</span><span class="p">]</span>
 
@@ -183,10 +183,10 @@
     <span class="n">existing_anchors</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;&lt;a name=&quot;(.+?)&quot;&gt;&lt;/a&gt;&#39;</span><span class="p">,</span> <span class="n">md_text</span><span class="p">))</span>
 
     <span class="c1"># Find all headers in the markdown text</span>
-    <span class="n">headers</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(#+) (.+)$&#39;</span><span class="p">,</span> <span class="n">md_text</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
+    <span class="n">headers</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^(#+) (.+)$&quot;</span><span class="p">,</span> <span class="n">md_text</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">MULTILINE</span><span class="p">)</span>
 
     <span class="c1"># Generate table of contents</span>
-    <span class="n">toc</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;# Table of contents&#39;</span><span class="p">]</span>
+    <span class="n">toc</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;# Table of contents&quot;</span><span class="p">]</span>
     <span class="n">anchors</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">header_level</span><span class="p">,</span> <span class="n">header_text</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">:</span>
         <span class="n">level</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">header_level</span><span class="p">)</span>  <span class="c1"># Determine the header level by count of #</span>
@@ -199,8 +199,8 @@
         <span class="n">anchor_tag</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;&lt;a name=&quot;</span><span class="si">{</span><span class="n">anchor_name</span><span class="si">}</span><span class="s1">&quot;&gt;&lt;/a&gt;&#39;</span>
         <span class="k">if</span> <span class="n">anchor_tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">md_text</span><span class="p">:</span>
             <span class="n">md_text</span> <span class="o">=</span> <span class="n">md_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">header_level</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">header_text</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">header_level</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">header_text</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">anchor_tag</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">header_level</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">header_text</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">header_level</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">header_text</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">anchor_tag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
                 <span class="mi">1</span><span class="p">,</span>
             <span class="p">)</span>
 
@@ -208,9 +208,9 @@
         <span class="n">anchors</span><span class="p">[</span><span class="n">anchor_name</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="c1"># Insert the table of contents after the first header (usually the title)</span>
-    <span class="n">toc_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">toc</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
-    <span class="n">split_md_text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(#+ .+)&#39;</span><span class="p">,</span> <span class="n">md_text</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">md_text_with_toc</span> <span class="o">=</span> <span class="n">split_md_text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">toc_str</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split_md_text</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+    <span class="n">toc_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">toc</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+    <span class="n">split_md_text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(#+ .+)&quot;</span><span class="p">,</span> <span class="n">md_text</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">md_text_with_toc</span> <span class="o">=</span> <span class="n">split_md_text</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">toc_str</span> <span class="o">+</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">split_md_text</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 
     <span class="k">return</span> <span class="n">md_text_with_toc</span></div>
 
