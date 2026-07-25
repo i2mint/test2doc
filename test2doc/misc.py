@@ -36,7 +36,7 @@ def rename_file(
 
 def renamer_function(filepath: Filepath) -> Filepath:
     d = load_json(filepath)
-    title = d['title']
+    title = d["title"]
     # separate folder and filename
     folder, filename = os.path.split(filepath)
     # separate filename and extension
@@ -56,7 +56,7 @@ def _header_to_anchor_base(header):
     from hashlib import md5
 
     # Normalize the header to generate a consistent anchor
-    normalized = re.sub(r'\s+', '-', header.lower().strip())
+    normalized = re.sub(r"\s+", "-", header.lower().strip())
     # Hash the normalized header for a short and unique anchor
     return md5(normalized.encode()).hexdigest()[:8]
 
@@ -96,10 +96,10 @@ def add_toc_to_markdown(md_text):
     existing_anchors = Counter(re.findall(r'<a name="(.+?)"></a>', md_text))
 
     # Find all headers in the markdown text
-    headers = re.findall(r'^(#+) (.+)$', md_text, re.MULTILINE)
+    headers = re.findall(r"^(#+) (.+)$", md_text, re.MULTILINE)
 
     # Generate table of contents
-    toc = ['# Table of contents']
+    toc = ["# Table of contents"]
     anchors = {}
     for header_level, header_text in headers:
         level = len(header_level)  # Determine the header level by count of #
@@ -112,8 +112,8 @@ def add_toc_to_markdown(md_text):
         anchor_tag = f'<a name="{anchor_name}"></a>'
         if anchor_tag not in md_text:
             md_text = md_text.replace(
-                f'{header_level} {header_text}',
-                f'{header_level} {header_text} {anchor_tag}',
+                f"{header_level} {header_text}",
+                f"{header_level} {header_text} {anchor_tag}",
                 1,
             )
 
@@ -121,9 +121,9 @@ def add_toc_to_markdown(md_text):
         anchors[anchor_name] = True
 
     # Insert the table of contents after the first header (usually the title)
-    toc_str = '\n'.join(toc) + '\n\n'
-    split_md_text = re.split(r'(#+ .+)', md_text, 1)
-    md_text_with_toc = split_md_text[0] + toc_str + ''.join(split_md_text[1:])
+    toc_str = "\n".join(toc) + "\n\n"
+    split_md_text = re.split(r"(#+ .+)", md_text, 1)
+    md_text_with_toc = split_md_text[0] + toc_str + "".join(split_md_text[1:])
 
     return md_text_with_toc
 

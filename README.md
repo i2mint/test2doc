@@ -29,11 +29,9 @@ def test_func(func, wrap):
     # Just wrapping the func gives you a sort of copy of the func.
     wrapped_func = wrap(func)  # no transformations
     # The behavior remains the same:
-    assert wrapped_func(2, 'co') == 'coco' == func(2, 'co')
+    assert wrapped_func(2, "co") == "coco" == func(2, "co")
     # ... and the signature as well:
-    assert (
-            str(signature(wrapped_func)) == "(a, b: str, c='hi')"
-    )
+    assert str(signature(wrapped_func)) == "(a, b: str, c='hi')"
 ```
 
 Who's going to read that?
@@ -58,16 +56,13 @@ wrapped_func = wrap(func)  # no transformations
 The behavior remains the same:
 
 ```python
-assert wrapped_func(2, 'co') == 'coco' == func(2, 'co')
+assert wrapped_func(2, "co") == "coco" == func(2, "co")
 ```
 
 ... and the signature as well:
 
 ```python
-assert (
-        str(signature(wrapped_func)) == "(a, b: str, c='hi')"
-)
-
+assert str(signature(wrapped_func)) == "(a, b: str, c='hi')"
 ```
 
 ## You know what I'm getting at...

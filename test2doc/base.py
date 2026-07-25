@@ -7,6 +7,7 @@ from typing import Union
 from collections.abc import Iterable, Generator
 import ast
 from ast import parse as ast_parse
+
 try:
     # Try ast.parse (3.9+)
     from ast import unparse as ast_unparse
@@ -23,7 +24,7 @@ def ast_block_line_coordinates(src_string: str):
     when a node has
     """
     for block in ast.walk(ast_parse(src_string)):
-        if hasattr(block, 'lineno'):
+        if hasattr(block, "lineno"):
             yield block.lineno, block.end_lineno
 
 
@@ -38,7 +39,7 @@ def line_blocks(lines, line_indices) -> Blocks:
     ``'\n'``.join(lines[i:j])`` strings
     """
     for lower_bound, upper_bound in line_indices:
-        yield '\n'.join(lines[lower_bound:upper_bound])
+        yield "\n".join(lines[lower_bound:upper_bound])
 
 
 def _intervals_and_compliments(sorted_intervals, max_bound=None, min_bound=0):
@@ -69,17 +70,19 @@ def src_string_to_blocks(src_string: str):
     sorted_ast_block_lines = sorted(set(ast_block_line_coordinates(src_string)))
     # filter out those intervals whose lower bound is higher than the upper bound
     block_indices = list(
-        filter(lambda x: x[0] < x[1], _intervals_and_compliments(sorted_ast_block_lines))
+        filter(
+            lambda x: x[0] < x[1], _intervals_and_compliments(sorted_ast_block_lines)
+        )
     )
     return list(line_blocks(src_string.splitlines(), block_indices))
 
 
 def _blocks_to_docs_lines(blocks: Blocks) -> StringGenerator:
     for block in blocks:
-        if block.strip().startswith('#'):
-            yield 'text', block.strip()[1:]
+        if block.strip().startswith("#"):
+            yield "text", block.strip()[1:]
         else:
-            yield 'code', block
+            yield "code", block
 
 
 from itertools import groupby
@@ -91,15 +94,15 @@ def _blocks_to_docs(blocks: Blocks) -> StringGenerator:
     val_getter = itemgetter(1)
     grouped = groupby(_blocks_to_docs_lines(blocks), key=key_getter)
     for kind, section_strs in grouped:
-        section = '\n'.join(map(val_getter, section_strs))
-        if kind == 'text':
-            yield f'{section}\n'
-        elif kind == 'code':
-            yield f'```python\n{section}\n```\n'
+        section = "\n".join(map(val_getter, section_strs))
+        if kind == "text":
+            yield f"{section}\n"
+        elif kind == "code":
+            yield f"```python\n{section}\n```\n"
 
 
 def blocks_to_docs(blocks: Blocks) -> str:
-    return '\n'.join(_blocks_to_docs(blocks))
+    return "\n".join(_blocks_to_docs(blocks))
 
 
 Code = Union[Blocks, str, object]
@@ -113,7 +116,7 @@ def code_to_src_string(code: Code) -> str:
         tree = ast_parse(src_string)
         first_line_of_body = tree.body[0].body[0].lineno
         body_lines, _ = inspect.getsourcelines(code)
-        code = ''.join(body_lines[(first_line_of_body - 1):])
+        code = "".join(body_lines[(first_line_of_body - 1) :])
     assert isinstance(code, str)
     return inspect.cleandoc(code)
 
@@ -162,12 +165,9 @@ def is_proper_partition(blocks: Blocks, src_string: str):
     blocks[0] = blocks[0].strip()
     blocks[-1] = blocks[-1].strip()
     src_string = src_string.strip()
-    return '\n'.join(blocks) == src_string
+    return "\n".join(blocks) == src_string
 
 
 def is_valid_blocks_of_src_string(blocks: Blocks, src_string: str):
-    """True, and only if, the blocks have valid python and """
+    """True, and only if, the blocks have valid python and"""
     return are_all_valid_python_code(blocks) and is_proper_partition(blocks, src_string)
-
-
-

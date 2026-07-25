@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "test2doc"
-version = "0.0.2"
+version = "0.0.3"
 description = "Generate documentation from tests"
 readme = "README.md"
 requires-python = ">=3.10"
