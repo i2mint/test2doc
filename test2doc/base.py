@@ -2,6 +2,7 @@
 
 from i2.tests.test_wrapper import test_mk_ingress_from_name_mapper
 import inspect
+import textwrap
 from typing import Union
 from collections.abc import Iterable, Generator
 import ast
@@ -106,7 +107,9 @@ Code = Union[Blocks, str, object]
 
 def code_to_src_string(code: Code) -> str:
     if not isinstance(code, str):
-        src_string = inspect.getsource(code)
+        # dedent so a nested function's still-indented source parses (3.12 raises
+        # IndentationError otherwise); dedent preserves line numbers used below.
+        src_string = textwrap.dedent(inspect.getsource(code))
         tree = ast_parse(src_string)
         first_line_of_body = tree.body[0].body[0].lineno
         body_lines, _ = inspect.getsourcelines(code)

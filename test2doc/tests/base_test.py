@@ -26,13 +26,10 @@ def test_simple():
 
     # Just wrapping the func gives you a sort of copy of the func.
     wrapped_func = wrap(func)  # no transformations
+    assert wrapped_func(2, 'co') == 'coco' == func(2, 'co')
     assert (
-            wrapped_func(2, 'co')
-            == 'coco'
-            == func(2, 'co')
-    )
-    assert str(signature(wrapped_func)) == \
-           "(a, b: str, c='hi')"  # "(a, b: str, c='hi')"
+        str(signature(wrapped_func)) == "(a, b: str, c='hi')"
+    )  # "(a, b: str, c='hi')"
     '''
     src_string = inspect.cleandoc(src_string)
 
