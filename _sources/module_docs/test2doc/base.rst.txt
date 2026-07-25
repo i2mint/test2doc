@@ -1,0 +1,4 @@
+test2doc.base
+=============
+.. automodule:: test2doc.base
+   :members:

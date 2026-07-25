@@ -1,0 +1,309 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>test2doc.base &mdash; test2doc 0.0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e3a6060d"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/toggleprompt.js?v=d7ede5d2"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            test2doc
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/test2doc.html">test2doc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/test2doc/base.html">test2doc.base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/test2doc/doctest_utils.html">test2doc.doctest_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/test2doc/misc.html">test2doc.misc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/test2doc/notebook_utils.html">test2doc.notebook_utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/test2doc/tests.html">test2doc.tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../module_docs/test2doc/tests/base_test.html">test2doc.tests.base_test</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">test2doc</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">test2doc.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for test2doc.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Base functionality for test2doc&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">i2.tests.test_wrapper</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_mk_ingress_from_name_mapper</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Generator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">ast</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ast</span><span class="w"> </span><span class="kn">import</span> <span class="n">parse</span> <span class="k">as</span> <span class="n">ast_parse</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Try ast.parse (3.9+)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">ast</span><span class="w"> </span><span class="kn">import</span> <span class="n">unparse</span> <span class="k">as</span> <span class="n">ast_unparse</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">astunparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">unparse</span> <span class="k">as</span> <span class="n">ast_unparse</span>
+
+<span class="n">Blocks</span> <span class="o">=</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+<span class="n">StringGenerator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="ast_block_line_coordinates">
+<a class="viewcode-back" href="../../module_docs/test2doc/base.html#test2doc.base.ast_block_line_coordinates">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">ast_block_line_coordinates</span><span class="p">(</span><span class="n">src_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Walks AST of src_string, yielding (lineno, end_lineno) coordinates of its nodes,</span>
+<span class="sd">    when a node has</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">ast</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">ast_parse</span><span class="p">(</span><span class="n">src_string</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="s1">&#39;lineno&#39;</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="n">block</span><span class="o">.</span><span class="n">lineno</span><span class="p">,</span> <span class="n">block</span><span class="o">.</span><span class="n">end_lineno</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">real_line_indices</span><span class="p">(</span><span class="n">line_indices</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span> <span class="ow">in</span> <span class="n">line_indices</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">lower_bound</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span>
+
+
+<div class="viewcode-block" id="line_blocks">
+<a class="viewcode-back" href="../../module_docs/test2doc/base.html#test2doc.base.line_blocks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">line_blocks</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">line_indices</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Blocks</span><span class="p">:</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Generate blocks from lines and line_indices.</span>
+<span class="sd">    ``line_indices`` are (i, j) pairs; what will be generated are the</span>
+<span class="sd">    ``&#39;\n&#39;``.join(lines[i:j])`` strings</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span> <span class="ow">in</span> <span class="n">line_indices</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">[</span><span class="n">lower_bound</span><span class="p">:</span><span class="n">upper_bound</span><span class="p">])</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_intervals_and_compliments</span><span class="p">(</span><span class="n">sorted_intervals</span><span class="p">,</span> <span class="n">max_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_bound</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Yield the disjoint (i, j) intervals taken from ``sorted_intervals``, also</span>
+<span class="sd">    yielding the gaps between the input intervals.</span>
+
+<span class="sd">    &gt;&gt;&gt; list(_intervals_and_compliments([(2, 4), (5, 6), (6, 8)], max_bound=11))</span>
+<span class="sd">    [(0, 1), (1, 4), (4, 4), (4, 6), (6, 5), (5, 8), (8, 11)]</span>
+
+<span class="sd">    :param sorted_intervals: Sorted (i, j) pairs</span>
+<span class="sd">    :param max_bound: The lowest index to yield (default 0)</span>
+<span class="sd">    :param min_bound: The highest index to yield (default is ``sorted_intervals[-1][-1]``</span>
+<span class="sd">    :return: A generator of integer pairs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">max_bound</span> <span class="o">=</span> <span class="n">max_bound</span> <span class="ow">or</span> <span class="n">sorted_intervals</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">max_so_far</span> <span class="o">=</span> <span class="n">min_bound</span>
+    <span class="k">for</span> <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span> <span class="ow">in</span> <span class="n">sorted_intervals</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">upper_bound</span> <span class="o">&gt;=</span> <span class="n">max_so_far</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">max_so_far</span><span class="p">,</span> <span class="n">lower_bound</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="k">yield</span> <span class="n">lower_bound</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">upper_bound</span>
+        <span class="n">max_so_far</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">upper_bound</span><span class="p">,</span> <span class="n">max_so_far</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">max_so_far</span><span class="p">,</span> <span class="n">max_bound</span>
+
+
+<div class="viewcode-block" id="src_string_to_blocks">
+<a class="viewcode-back" href="../../module_docs/test2doc/base.html#test2doc.base.src_string_to_blocks">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">src_string_to_blocks</span><span class="p">(</span><span class="n">src_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blocks of executable strings taken from ``src_string``&quot;&quot;&quot;</span>
+    <span class="n">sorted_ast_block_lines</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ast_block_line_coordinates</span><span class="p">(</span><span class="n">src_string</span><span class="p">)))</span>
+    <span class="c1"># filter out those intervals whose lower bound is higher than the upper bound</span>
+    <span class="n">block_indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">_intervals_and_compliments</span><span class="p">(</span><span class="n">sorted_ast_block_lines</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">line_blocks</span><span class="p">(</span><span class="n">src_string</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(),</span> <span class="n">block_indices</span><span class="p">))</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_blocks_to_docs_lines</span><span class="p">(</span><span class="n">blocks</span><span class="p">:</span> <span class="n">Blocks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StringGenerator</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">blocks</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">block</span><span class="o">.</span><span class="n">strip</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="s1">&#39;code&#39;</span><span class="p">,</span> <span class="n">block</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">groupby</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">operator</span><span class="w"> </span><span class="kn">import</span> <span class="n">itemgetter</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_blocks_to_docs</span><span class="p">(</span><span class="n">blocks</span><span class="p">:</span> <span class="n">Blocks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StringGenerator</span><span class="p">:</span>
+    <span class="n">key_getter</span> <span class="o">=</span> <span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">val_getter</span> <span class="o">=</span> <span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">grouped</span> <span class="o">=</span> <span class="n">groupby</span><span class="p">(</span><span class="n">_blocks_to_docs_lines</span><span class="p">(</span><span class="n">blocks</span><span class="p">),</span> <span class="n">key</span><span class="o">=</span><span class="n">key_getter</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">kind</span><span class="p">,</span> <span class="n">section_strs</span> <span class="ow">in</span> <span class="n">grouped</span><span class="p">:</span>
+        <span class="n">section</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">val_getter</span><span class="p">,</span> <span class="n">section_strs</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;text&#39;</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s1">&#39;code&#39;</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="sa">f</span><span class="s1">&#39;```python</span><span class="se">\n</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="se">\n</span><span class="s1">```</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">blocks_to_docs</span><span class="p">(</span><span class="n">blocks</span><span class="p">:</span> <span class="n">Blocks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_blocks_to_docs</span><span class="p">(</span><span class="n">blocks</span><span class="p">))</span>
+
+
+<span class="n">Code</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Blocks</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">code_to_src_string</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="n">Code</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="c1"># dedent so a nested function&#39;s still-indented source parses (3.12 raises</span>
+        <span class="c1"># IndentationError otherwise); dedent preserves line numbers used below.</span>
+        <span class="n">src_string</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">code</span><span class="p">))</span>
+        <span class="n">tree</span> <span class="o">=</span> <span class="n">ast_parse</span><span class="p">(</span><span class="n">src_string</span><span class="p">)</span>
+        <span class="n">first_line_of_body</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">body</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lineno</span>
+        <span class="n">body_lines</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsourcelines</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">body_lines</span><span class="p">[(</span><span class="n">first_line_of_body</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):])</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inspect</span><span class="o">.</span><span class="n">cleandoc</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="code_to_docs">
+<a class="viewcode-back" href="../../module_docs/test2doc/base.html#test2doc.base.code_to_docs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">code_to_docs</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="n">Code</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;code (multi kinds) -&gt; src_string -&gt; blocks -&gt; docs&quot;&quot;&quot;</span>
+    <span class="c1"># if not isinstance(code, Iterable):</span>
+    <span class="c1">#     blocks = inspect.getsourcelines(code)[1:]</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     if isinstance(code, str):</span>
+    <span class="c1">#         blocks = src_string_to_blocks(code)</span>
+    <span class="c1">#     else:</span>
+    <span class="c1">#         # consider code to be an iterable of code strings, and glue them together</span>
+    <span class="c1">#         assert isinstance(code, Iterable), \</span>
+    <span class="c1">#             f&#39;code should be a string at this point: Was {type(code)}&#39;</span>
+    <span class="c1">#         blocks = code</span>
+    <span class="n">src_string</span> <span class="o">=</span> <span class="n">code_to_src_string</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+    <span class="n">blocks</span> <span class="o">=</span> <span class="n">src_string_to_blocks</span><span class="p">(</span><span class="n">src_string</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">blocks_to_docs</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span></div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------------------</span>
+<span class="c1"># Validity</span>
+
+
+<div class="viewcode-block" id="is_valid_python_code">
+<a class="viewcode-back" href="../../module_docs/test2doc/base.html#test2doc.base.is_valid_python_code">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_valid_python_code</span><span class="p">(</span><span class="n">src_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;True if, and only if, ``src_string`` is valid python.</span>
+<span class="sd">    Valid python is defined as &#39;ast.parse(src_string)` doesn&#39;t raise a ``SyntaxError``&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">ast_parse</span><span class="p">(</span><span class="n">src_string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">except</span> <span class="ne">SyntaxError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+
+
+<div class="viewcode-block" id="are_all_valid_python_code">
+<a class="viewcode-back" href="../../module_docs/test2doc/base.html#test2doc.base.are_all_valid_python_code">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">are_all_valid_python_code</span><span class="p">(</span><span class="n">blocks</span><span class="p">:</span> <span class="n">Blocks</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;True if, and only if, all blocks are valid python code&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">is_valid_python_code</span><span class="p">,</span> <span class="n">blocks</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="is_proper_partition">
+<a class="viewcode-back" href="../../module_docs/test2doc/base.html#test2doc.base.is_proper_partition">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_proper_partition</span><span class="p">(</span><span class="n">blocks</span><span class="p">:</span> <span class="n">Blocks</span><span class="p">,</span> <span class="n">src_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;True if, and only if, the blocks can be assembled to make src_string&quot;&quot;&quot;</span>
+    <span class="n">blocks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span>  <span class="c1"># to make sure it has a size</span>
+    <span class="c1"># stripping out extremal spaces</span>
+    <span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">blocks</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">blocks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">blocks</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">src_string</span> <span class="o">=</span> <span class="n">src_string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span> <span class="o">==</span> <span class="n">src_string</span></div>
+
+
+
+<div class="viewcode-block" id="is_valid_blocks_of_src_string">
+<a class="viewcode-back" href="../../module_docs/test2doc/base.html#test2doc.base.is_valid_blocks_of_src_string">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_valid_blocks_of_src_string</span><span class="p">(</span><span class="n">blocks</span><span class="p">:</span> <span class="n">Blocks</span><span class="p">,</span> <span class="n">src_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;True, and only if, the blocks have valid python and &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">are_all_valid_python_code</span><span class="p">(</span><span class="n">blocks</span><span class="p">)</span> <span class="ow">and</span> <span class="n">is_proper_partition</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">src_string</span><span class="p">)</span></div>
+
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

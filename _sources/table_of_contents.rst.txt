@@ -1,0 +1,11 @@
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+   module_docs/test2doc
+   module_docs/test2doc/base
+   module_docs/test2doc/doctest_utils
+   module_docs/test2doc/misc
+   module_docs/test2doc/notebook_utils
+   module_docs/test2doc/tests
+   module_docs/test2doc/tests/base_test

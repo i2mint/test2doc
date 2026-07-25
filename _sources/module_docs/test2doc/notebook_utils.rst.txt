@@ -1,0 +1,4 @@
+test2doc.notebook_utils
+=======================
+.. automodule:: test2doc.notebook_utils
+   :members:

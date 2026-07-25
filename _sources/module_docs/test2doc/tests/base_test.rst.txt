@@ -1,0 +1,4 @@
+test2doc.tests.base_test
+========================
+.. automodule:: test2doc.tests.base_test
+   :members:
