@@ -1,5 +1,6 @@
 """Utils for jupyter (ipython) notebooks."""
 
+from itertools import islice
 import json
 from pathlib import Path
 from typing import Union, List, Tuple
@@ -73,7 +74,7 @@ def cells_with_largest_output(notebook, n=5, cell_egress=_output_size_stats):
     sorted_cells = sort_notebook_cells(
         notebook, key=get_output_size, reverse=True, cell_egress=cell_egress
     )
-    return [next(sorted_cells) for _ in range(n)]
+    return list(islice(sorted_cells, n))
 
 
 def clear_outputs_of_cell_ids(notebook, cell_ids):

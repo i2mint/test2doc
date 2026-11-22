@@ -89,11 +89,6 @@ def test_sort_and_largest():
         list(nu.sort_notebook_cells({"nope": 1}))
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=StopIteration,
-    reason="cells_with_largest_output(n=5 default) raises StopIteration when the notebook has fewer cells",
-)
 def test_largest_default_n_on_small_notebook():
     assert len(nu.cells_with_largest_output(NB)) == 3
 
