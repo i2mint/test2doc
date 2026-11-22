@@ -1,4 +1,0 @@
-test2doc.misc
-=============
-.. automodule:: test2doc.misc
-   :members:

@@ -1,0 +1,16 @@
+﻿test2doc
+========
+
+.. automodule:: test2doc
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   base
+   doctest_utils
+   misc
+   notebook_utils

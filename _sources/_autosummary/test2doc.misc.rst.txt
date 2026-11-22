@@ -1,0 +1,15 @@
+test2doc.misc
+=============
+
+.. automodule:: test2doc.misc
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_toc_to_markdown
+      markdown_to_pdf
+      rename_file
+      renamer_function
+   

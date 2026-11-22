@@ -1,0 +1,16 @@
+# test2doc
+
+> Generate documentation from tests
+
+
+## Pages in this subsection
+
+- [test2doc](test2doc.html.md): Generate documentation from tests.
+- [test2doc.base](test2doc.base.html.md): Base functionality for test2doc
+- [test2doc.doctest_utils](test2doc.doctest_utils.html.md): Doctest utils
+- [test2doc.misc](test2doc.misc.html.md): Miscellaneous functions for test2doc.
+- [test2doc.notebook_utils](test2doc.notebook_utils.html.md): Utils for jupyter (ipython) notebooks.
+
+## Optional
+
+- [Top-level llms.txt](../llms.txt): Complete documentation index.

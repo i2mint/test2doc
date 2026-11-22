@@ -1,4 +1,0 @@
-test2doc.doctest_utils
-======================
-.. automodule:: test2doc.doctest_utils
-   :members:

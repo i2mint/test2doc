@@ -1,0 +1,17 @@
+test2doc.notebook\_utils
+========================
+
+.. automodule:: test2doc.notebook_utils
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      cells_with_largest_output
+      clear_outputs_of_cell_ids
+      clear_outputs_of_largest_output_cells
+      ensure_notebook_dict
+      get_output_size
+      sort_notebook_cells
+   

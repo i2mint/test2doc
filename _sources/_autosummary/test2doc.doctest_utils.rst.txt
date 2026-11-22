@@ -1,0 +1,14 @@
+test2doc.doctest\_utils
+=======================
+
+.. automodule:: test2doc.doctest_utils
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      assertions_to_doctest
+      remove_assertion
+      txt_to_doctest_txt
+   

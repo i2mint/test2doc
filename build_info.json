@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-11-22T20:19:47Z",
+  "package": {
+    "name": "test2doc",
+    "version": "0.0.4",
+    "display_name": "test2doc",
+    "source": "pyproject.toml"
+  },
+  "git": {
+    "available": true,
+    "commit": "b60cc403308326787ebc9eb672464f80db093ce1",
+    "short_commit": "b60cc40",
+    "branch": "master",
+    "tags": [],
+    "dirty": false,
+    "remote_url": "https://github.com/i2mint/test2doc",
+    "commit_url": "https://github.com/i2mint/test2doc/commit/b60cc403308326787ebc9eb672464f80db093ce1",
+    "error": null
+  },
+  "ci": {
+    "provider": "github",
+    "repository": "i2mint/test2doc",
+    "sha": "b60cc403308326787ebc9eb672464f80db093ce1",
+    "sha_in_history": true,
+    "ref": "refs/heads/master",
+    "ref_name": "master",
+    "run_id": "45065686431",
+    "run_url": "https://github.com/i2mint/test2doc/actions/runs/45065686431",
+    "server_url": "https://github.com"
+  },
+  "tools": {
+    "epythet": "0.2.23",
+    "sphinx": "9.1.1",
+    "docutils": "0.22.4",
+    "python": "3.12.16"
+  },
+  "config": {
+    "theme": "auto",
+    "html_theme": "sphinxawesome_theme",
+    "accent": "#87346a",
+    "mode": "auto",
+    "api_generator": "autosummary",
+    "ignore": [
+      "tests/",
+      "scrap/",
+      "examples/"
+    ],
+    "agent_outputs": true,
+    "aggregates": [
+      "md"
+    ],
+    "ai_artifacts": true,
+    "provenance": true,
+    "docs_dir": "docsrc"
+  },
+  "site": {
+    "modules_documented": 5,
+    "objects_documented": 13
+  },
+  "pypi": {
+    "checked": true,
+    "latest": "0.0.4",
+    "relation": "same",
+    "error": null
+  },
+  "reproduce": "git clone https://github.com/i2mint/test2doc && cd test2doc\ngit checkout b60cc403308326787ebc9eb672464f80db093ce1\npip install \"epythet==0.2.23\"\nepythet quickstart . --ignore tests/ scrap/ examples/",
+  "warnings": [],
+  "alignment": {
+    "aligned": true,
+    "notes": []
+  }
+}

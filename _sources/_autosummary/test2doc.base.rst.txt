@@ -1,0 +1,22 @@
+test2doc.base
+=============
+
+.. automodule:: test2doc.base
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      are_all_valid_python_code
+      ast_block_line_coordinates
+      blocks_to_docs
+      code_to_docs
+      code_to_src_string
+      is_proper_partition
+      is_valid_blocks_of_src_string
+      is_valid_python_code
+      line_blocks
+      real_line_indices
+      src_string_to_blocks
+   
