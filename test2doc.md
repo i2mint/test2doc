@@ -1,4 +1,4 @@
-> built 2026-11-22 20:19 UTC from b60cc40 (master) · test2doc 0.0.4. Details: build_info.json
+> built 2026-11-22 22:12 UTC from 9c40bc9 (master) · test2doc 0.0.4. Details: build_info.json
 
 # index.html.md
 
@@ -263,7 +263,7 @@ Sort notebook cells by rank computed by key function (applied to cells)
 
 # About this build
 
-This documentation was built on **2026-11-22 20:19 UTC** from commit <a href="https://github.com/i2mint/test2doc/commit/b60cc403308326787ebc9eb672464f80db093ce1"><code>b60cc40</code></a> on branch <code>master</code>, for **test2doc 0.0.4** (from <code>pyproject.toml</code>).
+This documentation was built on **2026-11-22 22:12 UTC** from commit <a href="https://github.com/i2mint/test2doc/commit/9c40bc94d1d33362e75d8b76a88009ba8d90052d"><code>9c40bc9</code></a> on branch <code>master</code>, for **test2doc 0.0.4** (from <code>pyproject.toml</code>).
 
 #### NOTE
 Nothing suggests a mismatch: the tree was clean at the commit above, and the documented version is the one on PyPI.
@@ -272,7 +272,7 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 
 |                     |                                                                                                                                                        |
 |---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Commit              | <a href="https://github.com/i2mint/test2doc/commit/b60cc403308326787ebc9eb672464f80db093ce1"><code>b60cc403308326787ebc9eb672464f80db093ce1</code></a> |
+| Commit              | <a href="https://github.com/i2mint/test2doc/commit/9c40bc94d1d33362e75d8b76a88009ba8d90052d"><code>9c40bc94d1d33362e75d8b76a88009ba8d90052d</code></a> |
 | Branch              | <code>master</code>                                                                                                                                    |
 | Tags at this commit | none                                                                                                                                                   |
 | Working tree        | clean                                                                                                                                                  |
@@ -283,9 +283,9 @@ Nothing suggests a mismatch: the tree was clean at the commit above, and the doc
 |              |                                                                                            |
 |--------------|--------------------------------------------------------------------------------------------|
 | Repository   | <code>i2mint/test2doc</code>                                                               |
-| Run          | <a href="https://github.com/i2mint/test2doc/actions/runs/45065686431">45065686431</a>      |
+| Run          | <a href="https://github.com/i2mint/test2doc/actions/runs/45076218870">45076218870</a>      |
 | Ref          | <code>refs/heads/master</code>                                                             |
-| Event commit | <code>b60cc403308326787ebc9eb672464f80db093ce1</code> (in the history of the built commit) |
+| Event commit | <code>9c40bc94d1d33362e75d8b76a88009ba8d90052d</code> (in the history of the built commit) |
 
 ## Tools
 
@@ -316,7 +316,7 @@ Latest release: <a href="https://pypi.org/project/test2doc/0.0.4/">0.0.4</a>, th
 
 ```bash
 git clone https://github.com/i2mint/test2doc && cd test2doc
-git checkout b60cc403308326787ebc9eb672464f80db093ce1
+git checkout 9c40bc94d1d33362e75d8b76a88009ba8d90052d
 pip install "epythet==0.2.23"
 epythet quickstart . --ignore tests/ scrap/ examples/
 ```

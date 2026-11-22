@@ -12,7 +12,7 @@
 - [test2doc.doctest_utils](_autosummary/test2doc.doctest_utils.html.md): Doctest utils
 - [test2doc.misc](_autosummary/test2doc.misc.html.md): Miscellaneous functions for test2doc.
 - [test2doc.notebook_utils](_autosummary/test2doc.notebook_utils.html.md): Utils for jupyter (ipython) notebooks.
-- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-22 20:19 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
+- [About this build](about-this-build.html.md): This documentation was built on &#42;&#42;2026-11-22 22:12 UTC&#42;&#42; from commit &lt;a href="https://github.com/i2m...
 
 ## Optional
 
